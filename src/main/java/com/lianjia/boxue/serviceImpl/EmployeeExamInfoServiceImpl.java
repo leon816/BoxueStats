@@ -32,6 +32,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.lianjia.boxue.amqp.DetailRes;
 import com.lianjia.boxue.amqp.ExamMessageSender;
 import com.lianjia.boxue.commons.ObjectMapperUtils;
 import com.lianjia.boxue.commons.Utils;
@@ -255,26 +256,6 @@ public class EmployeeExamInfoServiceImpl implements EmployeeExamInfoService {
 	}
 
 	@Override
-	public void sumbitExamPoint(String userNo, Integer score, String paperId, String examMonth) {
-		// eeiRepository.submitExamPoint(ExamStatus.YiKao.getIndex(), point, paperId,
-		// userNo);
-		// 直接操作redis
-		Map<String, String> map = Maps.newHashMap();
-		map.put("score", String.valueOf(score));
-		map.put("paperId", paperId);
-		map.put("status", String.valueOf(ExamStatus.YiKao.getIndex()));
-		redisClient.opsForHash().putAll(Utils.generateKey(userNo), map);
-		if (logger.isDebugEnabled()) {
-			List<Object> list = redisClient.opsForHash().multiGet(Utils.generateKey(userNo), Lists.newArrayList("score", "paperId", "status"));
-			list.forEach(x -> logger.debug(x.toString()));
-		}
-		// 通过队列存到DB
-		// examMessageService.sendMsg(score + ";" + paperId + ";" + userNo,
-		// Variables.ExamScoreQueue);
-		examMessageSender.sendExamScore(score + ";" + paperId + ";" + userNo + ";" + examMonth);
-	}
-
-	@Override
 	public void sumbitExamData(ExamDataDomain examData) {
 		String examData_json = null;
 		try {
@@ -285,7 +266,11 @@ public class EmployeeExamInfoServiceImpl implements EmployeeExamInfoService {
 		if (StringUtils.isBlank(examData_json)) {
 			throw new RuntimeException("试卷数据不能为空");
 		}
-		examMessageSender.sendExamData(examData_json);
+		DetailRes detailRes = examMessageSender.sendExamData(examData_json);
+		if(!detailRes.isSuccess()) {
+			logger.error("提交试卷异常！" + detailRes.getErrMsg());
+			throw new RuntimeException("提交试卷异常！请稍后重试！");
+		}
 		String userNo = examData.getUserNo();
 		Integer score = examData.getScore();
 		String paperId = examData.getPaperId();

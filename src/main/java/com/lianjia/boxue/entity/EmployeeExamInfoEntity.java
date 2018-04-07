@@ -63,6 +63,7 @@ public class EmployeeExamInfoEntity {
 	private String remarkId;
 	@Column
 	@CreatedDate
+	@LastModifiedDate
 	private Date createdDate;
 	@Column
 	@LastModifiedDate

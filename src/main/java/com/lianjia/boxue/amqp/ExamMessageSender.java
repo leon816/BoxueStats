@@ -19,8 +19,6 @@ import org.springframework.stereotype.Component;
 public class ExamMessageSender implements ReturnCallback, ConfirmCallback {
 	@Value("${amqp.examExchange}")
 	private String examExchange;
-	@Value("${amqp.examScoreQueue}")
-	private String examScoreQueue;
 	@Value("${amqp.examDataQueue}")
 	private String examDataQueue;
 	@Autowired
@@ -33,11 +31,6 @@ public class ExamMessageSender implements ReturnCallback, ConfirmCallback {
 	public void init() {
 		rabbitTemplate.setConfirmCallback(this);
 		rabbitTemplate.setReturnCallback(this);
-	}
-
-	public void sendExamScore(String msg) {
-		rabbitTemplate.convertAndSend(examExchange, examScoreQueue, msg);
-		// rabbitTemplate.setConfirmCallback(this);
 	}
 
 	public DetailRes sendExamData(String msg) {

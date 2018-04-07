@@ -15,8 +15,6 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitmqConfiger {
 	@Value("${amqp.examExchange}")
 	private String examExchange;
-	@Value("${amqp.examScoreQueue}")
-	private String examScoreQueue;
 	@Value("${amqp.examDataQueue}")
 	private String examDataQueue;
 	@Value("${amqp.examFailQueue}")
@@ -25,16 +23,6 @@ public class RabbitmqConfiger {
 	@Bean("examExchange")
 	public DirectExchange examExchange() {
 		return new DirectExchange(examExchange);
-	}
-
-	@Bean("examScoreQueue")
-	public Queue examScoreQueue() {
-		return new Queue(examScoreQueue);
-	}
-
-	@Bean("examScoreQueueBinding")
-	public Binding examScoreQueueBinding() {
-		return BindingBuilder.bind(examScoreQueue()).to(examExchange()).with(examScoreQueue);
 	}
 
 	@Bean("examFailQueue")

@@ -36,8 +36,8 @@ public interface EmployeeExamInfoRepository extends JpaRepository<EmployeeExamIn
 
 	@Modifying
 	@Transactional
-	@Query(value = "update exam_employee_info e set e.status=?1,e.score=?2,paper_id=?3 where e.user_no=?4 and to_char(exam_month,'yyyy-MM')=?5", nativeQuery = true)
-	void submitExamPoint(Integer status, Integer score, String paperId, String userNo, String examMonth);
+	@Query(value = "update exam_employee_info e set e.status=?1,e.score=?2,e.paper_id=?3,e.update_date=to_date(?4,'yyyy-MM-dd HH24:mi:ss') where e.user_no=?5 and to_char(exam_month,'yyyy-MM')=?6", nativeQuery = true)
+	void submitExamPoint(Integer status, Integer score, String paperId, String updateTime, String userNo, String examMonth);
 
 	@Modifying
 	@Query(value = "update EmployeeExamInfoEntity e set e.status=?1 where e.id=?2")

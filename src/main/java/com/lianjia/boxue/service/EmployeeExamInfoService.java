@@ -1,6 +1,5 @@
 package com.lianjia.boxue.service;
 
-import java.util.List;
 import java.util.Map;
 
 import com.lianjia.boxue.domain.EmployeeExamInfoDomain;
@@ -26,8 +25,6 @@ public interface EmployeeExamInfoService {
 	void addBeiAn(RemarkRecordEntity r);
 
 	void cancelBeiAn(String userNo);
-
-	void sumbitExamPoint(String userNo, Integer point, String paperId, String examTime);
 
 	void sumbitExamData(ExamDataDomain examData);
 }

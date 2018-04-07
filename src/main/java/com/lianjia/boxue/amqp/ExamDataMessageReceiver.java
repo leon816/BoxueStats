@@ -2,11 +2,11 @@ package com.lianjia.boxue.amqp;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,8 @@ public class ExamDataMessageReceiver {
 			m = "0" + m;
 		}
 		String examMonth = y + "-" + m;
-		eeiRepository.submitExamPoint(ExamStatus.YiKao.getIndex(), edd.getScore(), edd.getPaperId(), edd.getUserNo(), examMonth);
+		String updateTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
+		eeiRepository.submitExamPoint(ExamStatus.YiKao.getIndex(), edd.getScore(), edd.getPaperId(), updateTime, edd.getUserNo(), examMonth);
 		
 		final ExamDataDomain edd_f = edd;
 		List<ExamQuestionEntity> examQuestions = Lists.newArrayList();
