@@ -15,7 +15,6 @@ import com.lianjia.boxue.entity.ExamTypeAssignEntity;
 import com.lianjia.boxue.repository.ExamTypeAssignRepository;
 import com.lianjia.boxue.repository.SysOrgUserRepository;
 import com.lianjia.boxue.service.EmployeeExamInfoService;
-import com.lianjia.boxue.service.ExamMessageService;
 import com.lianjia.boxue.service.ExamStatsService;
 import com.lianjia.boxue.service.ExamTypeAssignService;
 import com.lianjia.boxue.service.SysOrgUserService;
@@ -36,8 +35,6 @@ public class BoxueStatsApplicationTests {
 	SysOrgUserService userService;
 	@Autowired
 	EmployeeExamInfoService employeeExamInfoService;
-	@Autowired
-	ExamMessageService mservice;
 	@Autowired
 	ExamStatsService examStatsService;
 	

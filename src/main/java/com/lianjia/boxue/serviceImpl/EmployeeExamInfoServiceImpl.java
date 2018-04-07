@@ -44,7 +44,6 @@ import com.lianjia.boxue.enums.ExamStatus;
 import com.lianjia.boxue.repository.EmployeeExamInfoRepository;
 import com.lianjia.boxue.repository.RemarkRecordRepository;
 import com.lianjia.boxue.service.EmployeeExamInfoService;
-import com.lianjia.boxue.service.ExamMessageService;
 
 @Service
 public class EmployeeExamInfoServiceImpl implements EmployeeExamInfoService {
@@ -54,8 +53,6 @@ public class EmployeeExamInfoServiceImpl implements EmployeeExamInfoService {
 	EmployeeExamInfoRepository eeiRepository;
 	@Autowired
 	RemarkRecordRepository remarkRecordRepository;
-	@Autowired
-	ExamMessageService examMessageService;
 	@Autowired
 	ExamMessageSender examMessageSender;
 	@Autowired
