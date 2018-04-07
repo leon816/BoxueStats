@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.lianjia.boxue.amqp.RetryCache;
 import com.lianjia.boxue.entity.ExamTypeAssignEntity;
 import com.lianjia.boxue.repository.ExamTypeAssignRepository;
 import com.lianjia.boxue.repository.SysOrgUserRepository;
@@ -22,22 +23,23 @@ import com.lianjia.boxue.service.SysOrgUserService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BoxueStatsApplicationTests {
-	@Autowired
+	//@Autowired
 	ExamTypeAssignRepository re;
-	@Autowired
+	//@Autowired
 	ExamTypeAssignService es;
-	@Autowired
+	//@Autowired
 	SysOrgUserRepository sou_re;
-	@Autowired
+	//@Autowired
 	//@Qualifier("redisTemplate")
 	StringRedisTemplate redisClient;
-	@Autowired
+	//@Autowired
 	SysOrgUserService userService;
-	@Autowired
+	//@Autowired
 	EmployeeExamInfoService employeeExamInfoService;
-	@Autowired
+	//@Autowired
 	ExamStatsService examStatsService;
-	
+	@Autowired
+	RetryCache cache;
 	public void contextLoads() {
 		ExamTypeAssignEntity etc = new ExamTypeAssignEntity();
 		etc.setDuty("租赁");

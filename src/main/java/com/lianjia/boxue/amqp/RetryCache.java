@@ -4,7 +4,8 @@ package com.lianjia.boxue.amqp;
 import com.littlersmall.rabbitmqaccess.common.DetailRes;*/
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.PostConstruct;
@@ -14,11 +15,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+
 @Component
 public class RetryCache {
-	// private MessageSender sender;
 	private boolean stop = false;
-	private Map<String, MessageWithTime> map = new ConcurrentHashMap<>();
+	Cache<String, MessageWithTime> cache = Caffeine.newBuilder().expireAfterWrite(3, TimeUnit.MINUTES).maximumSize(1000).build();
 	private AtomicLong id = new AtomicLong();
 	@Autowired
 	ExamMessageSender sender;
@@ -60,11 +63,11 @@ public class RetryCache {
 	}
 
 	public void add(String id, String message) {
-		map.put(id, new MessageWithTime(System.currentTimeMillis(), message));
+		cache.put(id, new MessageWithTime(System.currentTimeMillis(), message));
 	}
 
 	public void del(String id) {
-		map.remove(id);
+		cache.invalidate(id);
 	}
 
 	private void startRetry() {
@@ -77,27 +80,24 @@ public class RetryCache {
 				}
 
 				long now = System.currentTimeMillis();
-
+				ConcurrentMap<String, MessageWithTime> map = cache.asMap();
 				for (Map.Entry<String, MessageWithTime> entry : map.entrySet()) {
 					MessageWithTime messageWithTime = entry.getValue();
-
 					if (null != messageWithTime) {
-						if (messageWithTime.getTime() + 3 * 60 * 1000 < now) {
-							log.info("send message failed after 3 min " + messageWithTime);
-							del(entry.getKey());
-						} else if (messageWithTime.getTime() + 60 * 1000 < now) {
+						if (messageWithTime.getTime() + 60 * 1000 < now) {
 							log.info("resent failed msg.");
 							DetailRes detailRes = sender.sendExamData(messageWithTime.getMessage(), false, entry.getKey());
 							/*
 							 * detailRes.isSuccess()不能确保消息发送成功，confirm才能。下面代码有误。
 							 */
-							/*if (detailRes.isSuccess()) {
-								del(entry.getKey());
-							}*/
+							/*
+							 * if (detailRes.isSuccess()) { del(entry.getKey()); }
+							 */
 						}
 					}
 				}
 			}
 		}).start();
 	}
+
 }
