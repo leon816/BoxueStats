@@ -42,7 +42,8 @@ public class ExamMessageSender implements ReturnCallback, ConfirmCallback {
 
 	public DetailRes sendExamData(String msg) {
 		// rabbitTemplate.convertAndSend(examExchange, examDataQueue, msg);
-		return this.sendExamData(msg, true);
+		String id = UUID.randomUUID().toString();
+		return this.sendExamData(msg, true, id);
 	}
 
 	/**
@@ -51,10 +52,10 @@ public class ExamMessageSender implements ReturnCallback, ConfirmCallback {
 	 * @param cache 本地cache发送的消息，以便消息发送失败时重发。
 	 * @return
 	 */
-	public DetailRes sendExamData(String msg, boolean cache) {
+	public DetailRes sendExamData(String msg, boolean cache, String id) {
 		// rabbitTemplate.convertAndSend(examExchange, examDataQueue, msg);
 		try {
-			String id = UUID.randomUUID().toString();
+			//String id = UUID.randomUUID().toString();
 			if (cache) {//
 				retryCache.add(id, msg);
 			}

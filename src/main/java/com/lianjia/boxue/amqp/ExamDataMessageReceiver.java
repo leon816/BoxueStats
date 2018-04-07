@@ -72,10 +72,11 @@ public class ExamDataMessageReceiver {
 				month = "0" + month;
 			}
 			try {
-				eqe.setExamTime(DateUtils.parseDate(String.valueOf(edd_f.getYear()) + month, "yyyyMM"));
+				eqe.setExamTime(DateUtils.parseDate(edd_f.getYear() + month, "yyyyMM"));
 			} catch (ParseException e) {
 				logger.error(e.getMessage(), e);
 			}
+			eqe.setId(edd_f.getUserNo() + "-" + edd_f.getYear() + month + "-" + questionId);
 			examQuestions.add(eqe);
 		});
 		examQuestionRepository.saveAll(examQuestions);

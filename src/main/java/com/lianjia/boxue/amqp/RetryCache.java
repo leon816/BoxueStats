@@ -87,11 +87,13 @@ public class RetryCache {
 							del(entry.getKey());
 						} else if (messageWithTime.getTime() + 60 * 1000 < now) {
 							log.info("resent failed msg.");
-							DetailRes detailRes = sender.sendExamData(messageWithTime.getMessage(), false);
-
-							if (detailRes.isSuccess()) {
+							DetailRes detailRes = sender.sendExamData(messageWithTime.getMessage(), false, entry.getKey());
+							/*
+							 * detailRes.isSuccess()不能确保消息发送成功，confirm才能。下面代码有误。
+							 */
+							/*if (detailRes.isSuccess()) {
 								del(entry.getKey());
-							}
+							}*/
 						}
 					}
 				}
