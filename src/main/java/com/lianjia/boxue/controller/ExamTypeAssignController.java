@@ -5,8 +5,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +21,6 @@ import com.lianjia.boxue.domain.ExamTypeAssignDomain;
 import com.lianjia.boxue.domain.RegionInfo;
 import com.lianjia.boxue.domain.ResponseData;
 import com.lianjia.boxue.entity.ExamTypeAssignEntity;
-import com.lianjia.boxue.enums.Duty;
 import com.lianjia.boxue.service.ExamTypeAssignService;
 
 import io.swagger.annotations.ApiOperation;
@@ -64,7 +65,7 @@ public class ExamTypeAssignController {
 	/**
 	 * 更新考题分配
 	 */
-	@PostMapping("/update")
+	@PutMapping("/update")
 	@ApiOperation(value = "更新考题分配", notes = "")
 	public ResponseData<Object> update(@RequestBody ExamTypeAssignDomain ead) {
 		String duty = ead.getDuty();
@@ -88,7 +89,7 @@ public class ExamTypeAssignController {
 	/**
 	 * 删除考题分配
 	 */
-	@GetMapping("/delete")
+	@DeleteMapping("/delete")
 	@ApiOperation(value = "删除考题分配", notes = "")
 	public ResponseData<Object> delete(@RequestParam(required = true) String groupid) {
 		etcService.delete(groupid);

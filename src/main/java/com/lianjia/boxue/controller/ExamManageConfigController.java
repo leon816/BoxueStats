@@ -10,8 +10,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,7 +55,7 @@ public class ExamManageConfigController {
 	 * @return
 	 */
 	@ApiOperation(value = "开启关闭总开关", notes = "1:开启；0：关闭;2:开启中")
-	@GetMapping("/switchZkg")
+	@PutMapping("/switchZkg")
 	public ResponseData<String> switchZkg(@RequestParam(required = true) String value) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		// 判断是否在考试中
@@ -97,7 +99,7 @@ public class ExamManageConfigController {
 	 * example = "2018-03 10:00:00") })
 	 */
 
-	@PostMapping("/updateExamTime")
+	@PutMapping("/updateExamTime")
 	public ResponseData<String> updateExamTime(@RequestParam(required = true) String startTime, @RequestParam(required = true) String endTime) {
 		String joinTime = startTime + "~" + endTime;
 		examManageConfigService.updateExamTime(new String[] { startTime, endTime });
@@ -123,7 +125,7 @@ public class ExamManageConfigController {
 		return Utils.getResponseData(remarkTimeConfigService.add(rtc));
 	}
 
-	@GetMapping("/deleteRemarkTime")
+	@DeleteMapping("/deleteRemarkTime")
 	@ApiOperation(value = "删除备案时间区间", notes = "")
 	public ResponseData<Object> deleteRemarkTime(@RequestParam(required = true) String id) {
 		remarkTimeConfigService.delete(id);
@@ -138,7 +140,7 @@ public class ExamManageConfigController {
 	}
 
 	@ApiOperation(value = "更新备案时间区间", notes = "")
-	@PostMapping("/updateRemarkTime")
+	@PutMapping("/updateRemarkTime")
 	public ResponseData<RemarkTimeConfigEntity> updateRemarkTime(@RequestParam(required = true) Date remarkStartTime, @RequestParam(required = true) Date remarkEndTime,
 	        @RequestParam(required = true) String operator, @RequestParam(required = true) String id) {
 		RemarkTimeConfigEntity rtc = new RemarkTimeConfigEntity();

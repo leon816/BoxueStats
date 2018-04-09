@@ -12,8 +12,10 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -160,7 +162,7 @@ public class ExamEmployeeController {
 	 * @return
 	 */
 	@ApiOperation(value = "单个员工月考结果删除", notes = " 用于单个员工月考结果删除")
-	@GetMapping("/Examinfo/delete")
+	@DeleteMapping("/Examinfo/delete")
 	public ResponseData<Object> deleteExaminfo(@RequestParam(required = true) String id) {
 		employeeExamInfoService.deleteExaminfo(id);
 		return Utils.getResponseData(null);
@@ -175,7 +177,7 @@ public class ExamEmployeeController {
 	 * @return
 	 */
 	@ApiOperation(value = "单个员工月考结果更新", notes = "用于单个员工月考结果更新")
-	@PostMapping("/Examinfo/update")
+	@PutMapping("/Examinfo/update")
 	public ResponseData<Object> updateExaminfo(@RequestParam(required = true) String id, @RequestParam(required = true) Integer status, @RequestParam(required = true) Integer score) {
 		employeeExamInfoService.updateExaminfo(id, status, score);
 		return Utils.getResponseData(null);
@@ -211,7 +213,7 @@ public class ExamEmployeeController {
 	 * @return
 	 */
 	@ApiOperation(value = "取消备案", notes = "在月考结果查询列表对员工进行备案撤销")
-	@GetMapping("/BeiAn/cancel")
+	@PutMapping("/BeiAn/cancel")
 	public ResponseData<Object> cancelBeiAn(@RequestParam(required = true) String userNo) {
 		employeeExamInfoService.cancelBeiAn(userNo);
 		return Utils.getResponseData(null);
