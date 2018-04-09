@@ -12,6 +12,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,7 +52,9 @@ public class ExamEmployeeController {
 	@Autowired
 	private RemarkTimeConfigService remarkTimeConfigService;
 	@Autowired
-	ExamManageConfigService examManageConfigService;
+	private ExamManageConfigService examManageConfigService;
+	@Value("${shortestExamTime}")
+	private int shortestExamTime;
 	/*
 	 * @RequestMapping("/pull") public ResponseData pullEmployeeExamInfo() {
 	 * sysOrgUserService.pullEmployee(); return Utils.getResponseData(null); }
@@ -245,6 +248,9 @@ public class ExamEmployeeController {
 
 		if (currentTime.before(st) || currentTime.after(et)) {
 			throw new RuntimeException("考试结束，不能提交。");
+		}
+		if (currentTime.getTime() - st.getTime() < shortestExamTime * 60 * 1000) {
+			throw new RuntimeException("考试时间不足" + shortestExamTime + "分钟，不能提交。");
 		}
 		String userNo = examData.getUserNo();
 		

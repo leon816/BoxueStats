@@ -12,7 +12,9 @@ import org.springframework.util.CollectionUtils;
 import com.google.common.collect.Lists;
 import com.lianjia.boxue.entity.DutyRegionId;
 import com.lianjia.boxue.entity.ExamTypeAssignEntity;
+import com.lianjia.boxue.entity.ExamTypeEntity;
 import com.lianjia.boxue.repository.ExamTypeAssignRepository;
+import com.lianjia.boxue.repository.ExamTypeRepository;
 import com.lianjia.boxue.repository.SysOrgUserRepository;
 import com.lianjia.boxue.service.ExamTypeAssignService;
 
@@ -23,6 +25,8 @@ public class ExamTypeAssignServiceImpl implements ExamTypeAssignService {
 	ExamTypeAssignRepository etcRepository;
 	@Autowired
 	SysOrgUserRepository souRepository;
+	@Autowired
+	ExamTypeRepository examTypeRepository;
 
 	@Override
 	public ExamTypeAssignEntity save(ExamTypeAssignEntity etc) {
@@ -120,6 +124,27 @@ public class ExamTypeAssignServiceImpl implements ExamTypeAssignService {
 			outs.add((String) x);
 		});
 		return outs;
+	}
+
+	@Override
+	public List<ExamTypeEntity> getExamTypes() {
+		List<ExamTypeEntity> examTypes = examTypeRepository.findAll();
+		if(CollectionUtils.isEmpty(examTypes)) {
+			return null;
+		}
+		return examTypes;
+	}
+
+	@Override
+	public ExamTypeEntity addExamType(ExamTypeEntity ete) {
+		return examTypeRepository.save(ete);
+		
+	}
+
+	@Override
+	public void deleteExamType(String id) {
+		examTypeRepository.deleteById(id);
+		
 	}
 
 }

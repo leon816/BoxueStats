@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.lianjia.boxue.entity.DutyRegionId;
 import com.lianjia.boxue.entity.ExamTypeAssignEntity;
+import com.lianjia.boxue.entity.ExamTypeEntity;
 
 public interface ExamTypeAssignService {
 
@@ -23,5 +24,8 @@ public interface ExamTypeAssignService {
 	List<ExamTypeAssignEntity> queryAll();
 	
 	List<String> getDuties();
+	List<ExamTypeEntity> getExamTypes();
+	ExamTypeEntity  addExamType(ExamTypeEntity ete);
+	void deleteExamType(String id);
 	
 }

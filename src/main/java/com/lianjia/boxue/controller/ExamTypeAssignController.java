@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ import com.lianjia.boxue.domain.ExamTypeAssignDomain;
 import com.lianjia.boxue.domain.RegionInfo;
 import com.lianjia.boxue.domain.ResponseData;
 import com.lianjia.boxue.entity.ExamTypeAssignEntity;
+import com.lianjia.boxue.entity.ExamTypeEntity;
 import com.lianjia.boxue.service.ExamTypeAssignService;
 
 import io.swagger.annotations.ApiOperation;
@@ -131,9 +134,29 @@ public class ExamTypeAssignController {
 		return etcEntities.stream().filter(e -> groupid.equals(e.getGroupid())).findFirst().get();
 
 	}
+
 	@GetMapping("/getDuties")
 	@ApiOperation(value = "获取职务列表", notes = "")
 	ResponseData<List<String>> getDuties() {
 		return Utils.getResponseData(etcService.getDuties());
-	}	
+	}
+
+	@GetMapping("/getExamTypes")
+	@ApiOperation(value = "获取考题类型列表", notes = "")
+	ResponseData<List<ExamTypeEntity>> getExamTypes() {
+		return Utils.getResponseData(etcService.getExamTypes());
+	}
+	@ApiOperation(value = "添加考题类型到列表", notes = "")
+	@PostMapping("/addExamType")
+	ResponseData<Object> addExamType(@RequestBody @Valid ExamTypeEntity ete) {
+		etcService.addExamType(ete);
+		return Utils.getResponseData(null);
+	}
+	
+	@DeleteMapping("/deleteExamType")
+	@ApiOperation(value = "删除考题类型从列表", notes = "")
+	ResponseData<Object> deleteExamType(String id) {
+		etcService.deleteExamType(id);
+		return Utils.getResponseData(null);
+	}
 }
