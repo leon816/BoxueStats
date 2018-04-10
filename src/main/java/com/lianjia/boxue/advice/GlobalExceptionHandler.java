@@ -24,9 +24,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public ResponseData defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ResponseData<Object> defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
         logger.error(e.getMessage(), e);
-        ResponseData r = new ResponseData();
+        ResponseData<Object> r = new ResponseData<Object>();
         r.setMessage(e.getMessage());
         if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
              r.setCode("404");
