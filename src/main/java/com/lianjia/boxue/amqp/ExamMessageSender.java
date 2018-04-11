@@ -82,7 +82,7 @@ public class ExamMessageSender implements ReturnCallback, ConfirmCallback {
 	public void confirm(CorrelationData correlationData, boolean ack, String cause) {
 		if (!ack) {
 			if (logger.isInfoEnabled()) {
-				logger.info("send message failed: " + cause + correlationData.toString());
+				logger.info("send message failed,ack=false: " + cause + correlationData.toString());
 			}
 		} else {
 			if (logger.isDebugEnabled()) {

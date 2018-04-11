@@ -262,9 +262,10 @@ public class EmployeeExamInfoServiceImpl implements EmployeeExamInfoService {
 			examData_json = ObjectMapperUtils.getObjectMapper().writeValueAsString(examData);
 		} catch (JsonProcessingException e) {
 			logger.error(e.getMessage(), e);
+			throw new RuntimeException("考试数据序列化失败！");
 		}
 		if (StringUtils.isBlank(examData_json)) {
-			throw new RuntimeException("试卷数据不能为空");
+			throw new RuntimeException("试卷数据不能为空！");
 		}
 		DetailRes detailRes = examMessageSender.sendExamData(examData_json);
 		if(!detailRes.isSuccess()) {

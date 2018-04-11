@@ -54,7 +54,7 @@ public class ExamManageConfigController {
 	 *            开：1， 关：0,
 	 * @return
 	 */
-	@ApiOperation(value = "开启关闭总开关", notes = "1:开启；0：关闭;2:开启中")
+	@ApiOperation(value = "开启关闭总开关", notes = "1:开启；0：关闭;2:开启中；3：开启失败")
 	@PutMapping("/switchZkg")
 	public ResponseData<String> switchZkg(@RequestParam(required = true) String value) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

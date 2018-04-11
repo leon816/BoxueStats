@@ -47,7 +47,7 @@ public class ExamManageConfigServiceImpl implements ExamManageConfigService {
 	}
 
 	/**
-	 * 更新开考总开关状态；1:开启。0:关闭 2:开启中
+	 * 更新开考总开关状态；1:开启。0:关闭 2:开启中;3：开启失败
 	 */
 	@Override
 	@Transactional

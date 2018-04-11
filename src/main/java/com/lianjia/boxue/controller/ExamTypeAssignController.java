@@ -123,8 +123,8 @@ public class ExamTypeAssignController {
 			etcDomain.setGroupid(groupid);
 			etcDomain.setRegions(entry.getValue());
 			ExamTypeAssignEntity etc_e = getOneExamTypeConfigByGroupid(etcEntities, groupid);
-			etcDomain.setDuty(etc_e.getDuty());
-			etcDomain.setExamType(etc_e.getExamType());
+			etcDomain.setDuty(etc_e == null ? null : etc_e.getDuty());
+			etcDomain.setExamType(etc_e == null ? null : etc_e.getExamType());
 			etc_domains.add(etcDomain);
 		}
 		return Utils.getResponseData(etc_domains);
@@ -146,13 +146,14 @@ public class ExamTypeAssignController {
 	ResponseData<List<ExamTypeEntity>> getExamTypes() {
 		return Utils.getResponseData(etcService.getExamTypes());
 	}
+
 	@ApiOperation(value = "添加考题类型到列表", notes = "")
 	@PostMapping("/addExamType")
 	ResponseData<Object> addExamType(@RequestBody @Valid ExamTypeEntity ete) {
 		etcService.addExamType(ete);
 		return Utils.getResponseData(null);
 	}
-	
+
 	@DeleteMapping("/deleteExamType")
 	@ApiOperation(value = "删除考题类型从列表", notes = "")
 	ResponseData<Object> deleteExamType(String id) {

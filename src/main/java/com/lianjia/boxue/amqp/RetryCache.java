@@ -1,8 +1,5 @@
 package com.lianjia.boxue.amqp;
 
-/*import com.littlersmall.rabbitmqaccess.common.Constants;
-import com.littlersmall.rabbitmqaccess.common.DetailRes;*/
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -76,7 +73,7 @@ public class RetryCache {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					log.error("", e);
 				}
 
 				long now = System.currentTimeMillis();
